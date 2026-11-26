@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShadeBridge Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE  work: a shipped clinical software product, calm and exact
+   IDEA   the ShadeBridge CMPE 491 web UI itself, as drawn in the Analysis Report
+   PICTURE the live working app: device status, calibration wizard, Top-3 results
+   COLOUR navy #1B3059 sidebar, white work surface, traffic-light bands as the only strong colours
+   TYPE   Inter throughout, tabular numbers in tables
+   LAYOUT sidebar + top status bar + cards on a laptop; top tab bar and stacked cards on a phone */
+:root{color-scheme:light dark;--bg:light-dark(#f4f6fa,#0f141c);--surf:light-dark(#ffffff,#171e29);--ink:light-dark(#1b2333,#e6ebf3);--mut:light-dark(#5f6b7a,#9aa6b6);--line:light-dark(#dde3ec,#2a3445);--navy:#1B3059;--nav2:#2B4577;--acc:light-dark(#2b6cb0,#7fb3ff);--okb:light-dark(#e1f5ee,#113d31);--okt:light-dark(#0f6e56,#7ddcbc);--bdb:light-dark(#fcebeb,#4a1c1c);--bdt:light-dark(#a32d2d,#ffaaaa);--ylb:light-dark(#faeeda,#47340f);--ylt:light-dark(#854f0b,#f3c77a);--neb:light-dark(#e8edf5,#232d3d);--net:light-dark(#1b3059,#c9d6ea);--g:#3b9a5b;--y:#d69e2e;--r:#c53030}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,Arial,Helvetica,sans-serif}
+button,select,input,textarea{font:inherit;color:inherit}
+.app{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100%}
+.side{background:var(--navy);color:#e8edf5;padding:18px 0;display:flex;flex-direction:column}
+.logo{font-weight:700;font-size:20px;padding:0 20px 4px;letter-spacing:-.01em}
+.ver{font-size:12.5px;color:#aebbd3;padding:0 20px 18px}
+.nav a{display:flex;align-items:center;min-height:44px;padding:0 20px;color:#c9d2e0;text-decoration:none;border-left:4px solid transparent}
+.nav a:hover{background:#24395f}
+.nav a.on{background:var(--nav2);color:#fff;border-left-color:#7fb3ff}
+.side .foot{margin-top:auto;padding:16px 20px;font-size:12.5px;color:#aebbd3}
+.main{display:flex;flex-direction:column;min-height:100%}
+.top{background:var(--surf);border-bottom:1px solid var(--line);padding:12px 24px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.top h1{font-size:19px;margin:0;font-weight:600;letter-spacing:-.01em}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:12.5px;padding:5px 11px;border-radius:12px;white-space:nowrap}
+.ok{background:var(--okb);color:var(--okt)}.bad{background:var(--bdb);color:var(--bdt)}.yel{background:var(--ylb);color:var(--ylt)}.neu{background:var(--neb);color:var(--net)}
+.body{padding:22px 24px;display:grid;gap:18px;grid-template-columns:repeat(12,minmax(0,1fr));align-content:start}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.card h2{font-size:15px;margin:0 0 12px;color:var(--net);font-weight:600}
+.c4{grid-column:span 4}.c5{grid-column:span 5}.c7{grid-column:span 7}.c8{grid-column:span 8}.c12{grid-column:span 12}.c6{grid-column:span 6}
+.btn{min-height:42px;padding:0 18px;border-radius:8px;border:1px solid var(--navy);background:var(--surf);color:var(--net);cursor:pointer;font-weight:500}
+:root[data-theme=dark] .btn,.btn{border-color:light-dark(#1b3059,#7f9cc9)}
+.btn.p{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn:hover{filter:brightness(1.08)}.btn:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,.seg button:focus-visible,.nav a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lbl{font-size:12.5px;color:var(--mut);margin:0 0 4px}
+.val{font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid light-dark(#1b3059,#7f9cc9);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.seg button{min-height:40px;padding:0 14px;border:0;background:transparent;color:var(--net);cursor:pointer;border-right:1px solid light-dark(#1b3059,#7f9cc9)}
+.seg button:last-child{border-right:0}.seg button.on{background:var(--navy);color:#fff}
+select,input[type=text],textarea{min-height:42px;border:1px solid var(--line);border-radius:8px;background:var(--surf);padding:8px 10px;font-size:16px;width:100%}
+textarea{min-height:80px;resize:vertical}
+.step{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.num{width:28px;height:28px;border-radius:14px;background:var(--neb);color:var(--net);font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.num.cur{background:var(--navy);color:#fff}.num.done{background:var(--g);color:#fff}
+.small{font-size:13px;color:var(--mut)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{text-align:left;color:var(--mut);font-weight:500;border-bottom:1px solid var(--line);padding:8px 6px;white-space:nowrap}
+td{border-bottom:1px solid var(--line);padding:10px 6px}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{height:10px;background:var(--neb);border-radius:5px;width:100%;min-width:60px}.bar i{display:block;height:10px;border-radius:5px;background:var(--acc);transition:width .5s}
+.dot{display:inline-block;width:11px;height:11px;border-radius:6px;margin-right:6px;vertical-align:-1px}
+.g{background:var(--g)}.y{background:var(--y)}.r{background:var(--r)}
+.alert{border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:14px}
+.swatch{width:44px;height:44px;border-radius:8px;border:1px solid var(--line);flex:none}
+.lab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:6px 0 12px}
+.lab div{background:var(--neb);border-radius:8px;padding:8px 10px}
+.empty{color:var(--mut);padding:30px 0;text-align:center}
+.demo{border:1px dashed var(--line);border-radius:10px;padding:14px 16px;background:transparent}
+.demo h2{color:var(--mut)}
+.toast{position:fixed;right:20px;bottom:20px;background:var(--navy);color:#fff;padding:12px 16px;border-radius:8px;font-size:14px;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;max-width:min(420px,calc(100vw - 40px))}
+.toast.show{opacity:1;transform:none}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-right-color:transparent;border-radius:50%;animation:s .8s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes s{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}.bar i{transition:none}}
+.rep{border:1px solid var(--line);border-radius:8px;padding:16px;font-size:14px;line-height:1.65}
+@media(max-width:900px){.c4,.c5,.c7,.c8,.c6{grid-column:span 12}}
+@media(max-width:760px){.app{grid-template-columns:minmax(0,1fr)}.side{padding:10px 0 0}.logo{font-size:18px;padding:0 16px}.ver{padding:0 16px 8px}.nav{display:flex;overflow-x:auto}.nav a{flex:none;border-left:0;border-bottom:3px solid transparent;padding:0 14px}.nav a.on{border-bottom-color:#7fb3ff}.side .foot{display:none}.top,.body{padding-left:16px;padding-right:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="logo">ShadeBridge</div>
+    <div class="ver" id="verline">Clickable prototype · CMPE 491</div>
+    <nav class="nav" id="nav"></nav>
+    <div class="foot" id="footnote">Values are illustrative. No real device is connected.</div>
+  </aside>
+  <div class="main">
+    <header class="top"><h1 id="title"></h1><div class="pills" id="pills"></div></header>
+    <main class="body" id="view"></main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+{
+const T={
+ en:{home:'Device and calibration',cases:'Cases',measure:'Measure',final:'Final shade and report',library:'Shade library',prefs:'Preferences',
+  connected:'Device connected (USB)',disconnected:'Device disconnected',calOk:'Calibration valid',calNo:'Calibration required',
+  devStatus:'Device status',wizard:'Calibration wizard',start:'Start calibration',confirm:'Confirm',cancel:'Cancel',
+  dark:'Dark reference',darkT:'Place the probe on the black light trap, then confirm.',white:'White reference',whiteT:'Place the probe on the white reference tile, then confirm.',valid:'Validation',validT:'Checks saturation and signal range, then stores a calibration session.',
+  measureBtn:'Measure',again:'Measure again',selectFinal:'Go to final shade',setup:'Setup',specimen:'Specimen',tab:'Shade tab',denture:'Denture tooth',region:'Region',cerv:'Cervical',mid:'Middle',inc:'Incisal',guides:'Shade guides',inHolder:'Specimen in holder',
+  top3:'Top-3 recommendations',rank:'Rank',code:'Code',sim:'Similarity',band:'Band',acc:'Acceptable',per:'Imperceptible',nacc:'Not acceptable',
+  simNote:'Similarity is a scaled view of the CIEDE2000 difference (ΔE00 = 1.8 → 50%). It is not the probability that a shade is correct.',
+  noMatch:'No acceptable match in the library. The best candidate exceeds ΔE00 1.8.',measured:'Measured colour (CIELAB)',
+  quality:'Quality',demo:'Demo controls (prototype only)',lang:'Language',interval:'Calibration validity interval',newCase:'New case',open:'Open',
+  genPdf:'Generate PDF',share:'Share with lab (CMPE 492)',note:'Note for laboratory',sel:'Selected',differs:'differs from Top-1',preview:'Report preview',
+  noMeas:'No measurements yet in this case. Measure at least one region first.'},
+ tr:{home:'Cihaz ve kalibrasyon',cases:'Vakalar',measure:'Ölçüm',final:'Nihai renk ve rapor',library:'Renk kütüphanesi',prefs:'Ayarlar',
+  connected:'Cihaz bağlı (USB)',disconnected:'Cihaz bağlı değil',calOk:'Kalibrasyon geçerli',calNo:'Kalibrasyon gerekli',
+  devStatus:'Cihaz durumu',wizard:'Kalibrasyon sihirbazı',start:'Kalibrasyonu başlat',confirm:'Onayla',cancel:'İptal',
+  dark:'Siyah referans',darkT:'Probu siyah ışık tuzağına yerleştirip onaylayın.',white:'Beyaz referans',whiteT:'Probu beyaz referans karoya yerleştirip onaylayın.',valid:'Doğrulama',validT:'Doyma ve sinyal aralığı kontrol edilir, kalibrasyon oturumu kaydedilir.',
+  measureBtn:'Ölç',again:'Tekrar ölç',selectFinal:'Nihai renge geç',setup:'Ayarlar',specimen:'Örnek',tab:'Renk tablası',denture:'Protez diş',region:'Bölge',cerv:'Boyun',mid:'Orta',inc:'Kesici uç',guides:'Renk skalaları',inHolder:'Tutucudaki örnek',
+  top3:'En yakın 3 renk',rank:'Sıra',code:'Kod',sim:'Benzerlik',band:'Bant',acc:'Kabul edilebilir',per:'Fark edilmez',nacc:'Kabul edilemez',
+  simNote:'Benzerlik, CIEDE2000 farkının ölçeklenmiş gösterimidir (ΔE00 = 1,8 → %50). Rengin doğru olma olasılığı değildir.',
+  noMatch:'Kütüphanede kabul edilebilir eşleşme yok. En iyi aday ΔE00 1,8 değerini aşıyor.',measured:'Ölçülen renk (CIELAB)',
+  quality:'Kalite',demo:'Demo kontrolleri (yalnızca prototip)',lang:'Dil',interval:'Kalibrasyon geçerlilik süresi',newCase:'Yeni vaka',open:'Aç',
+  genPdf:'PDF oluştur',share:'Laboratuvarla paylaş (CMPE 492)',note:'Laboratuvar notu',sel:'Seçilen',differs:'Top-1’den farklı',preview:'Rapor önizleme',
+  noMeas:'Bu vakada henüz ölçüm yok. Önce en az bir bölgeyi ölçün.'}};
+// Illustrative library (not measured values)
+const LIB=[['B1',76.5,-0.6,12.0],['A1',75.2,0.2,14.5],['B2',74.3,-0.1,17.6],['D2',72.8,0.6,14.0],['A2',73.4,1.2,17.8],['C1',71.6,0.0,13.8],['C2',69.9,0.4,16.4],['D4',68.3,1.9,19.2],['A3',71.2,2.0,20.6],['D3',69.6,1.4,16.3],['B3',71.0,0.9,22.5],['A3.5',69.2,2.8,23.4],['B4',70.1,1.3,24.4],['C3',67.6,1.0,18.2],['A4',65.8,3.3,22.7],['C4',63.2,2.2,20.3]];
+const S={lang:'en',dev:true,cal:false,calAge:134,calMin:0,interval:60,wiz:0,spec:'tab',region:'mid',holder:'A2',scen:'ok',busy:false,res:null,
+  cases:[{id:'C-2026-014',date:'2026-12-15',meas:{},final:{},note:''},{id:'C-2026-013',date:'2026-12-14',meas:{},final:{},note:''},{id:'C-2026-011',date:'2026-12-11',meas:{},final:{},note:''}],cur:0};
+const t=k=>T[S.lang][k]||k;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const f1=x=>(S.lang==='tr'?x.toFixed(1).replace('.',','):x.toFixed(1));
+function de2000(l1,a1,b1,l2,a2,b2){const r=Math.PI/180;const C1=Math.hypot(a1,b1),C2=Math.hypot(a2,b2),Cb=(C1+C2)/2;const G=0.5*(1-Math.sqrt(Cb**7/(Cb**7+25**7)));const a1p=(1+G)*a1,a2p=(1+G)*a2;const C1p=Math.hypot(a1p,b1),C2p=Math.hypot(a2p,b2);const hf=(b,a)=>{if(a===0&&b===0)return 0;let x=Math.atan2(b,a)/r;return x<0?x+360:x};const h1=hf(b1,a1p),h2=hf(b2,a2p);const dL=l2-l1,dC=C2p-C1p;let dh=0;if(C1p*C2p!==0){dh=h2-h1;if(dh>180)dh-=360;else if(dh<-180)dh+=360}const dH=2*Math.sqrt(C1p*C2p)*Math.sin(dh*r/2);const Lb=(l1+l2)/2,Cp=(C1p+C2p)/2;let hb=h1+h2;if(C1p*C2p!==0){if(Math.abs(h1-h2)>180){hb=(h1+h2<360)?(h1+h2+360)/2:(h1+h2-360)/2}else hb=(h1+h2)/2}const Tt=1-0.17*Math.cos((hb-30)*r)+0.24*Math.cos(2*hb*r)+0.32*Math.cos((3*hb+6)*r)-0.2*Math.cos((4*hb-63)*r);const dT=30*Math.exp(-(((hb-275)/25)**2));const RC=2*Math.sqrt(Cp**7/(Cp**7+25**7));const SL=1+0.015*(Lb-50)**2/Math.sqrt(20+(Lb-50)**2);const SC=1+0.045*Cp,SH=1+0.015*Cp*Tt;const RT=-Math.sin(2*dT*r)*RC;return Math.sqrt((dL/SL)**2+(dC/SC)**2+(dH/SH)**2+RT*(dC/SC)*(dH/SH))}
+const K=1.8/Math.LN2;
+const simOf=d=>Math.round(100*Math.exp(-d/K));
+const bandOf=d=>d<0.8?['g','per']:d<=1.8?['y','acc']:['r','nacc'];
+const gauss=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
+function labToRgb(L,a,b){let y=(L+16)/116,x=a/500+y,z=y-b/200;const f=v=>v**3>0.008856?v**3:(v-16/116)/7.787;x=0.95047*f(x);y=f(y);z=1.08883*f(z);let R=x*3.2406+y*-1.5372+z*-0.4986,Gg=x*-0.9689+y*1.8758+z*0.0415,B=x*0.0557+y*-0.204+z*1.057;const g=v=>Math.max(0,Math.min(255,Math.round(255*(v>0.0031308?1.055*v**(1/2.4)-0.055:12.92*v))));return `rgb(${g(R)},${g(Gg)},${g(B)})`}
+function toast(m){const e=$('toast');e.textContent=m;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2600)}
+const views=['home','cases','measure','final-report','library','prefs'];
+const vk={'home':'home','cases':'cases','measure':'measure','final-report':'final','library':'library','prefs':'prefs'};
+const calValid=()=>S.cal&&S.calMin<S.interval;
+function pills(){const p=[];p.push(S.dev?`<span class="pill ok">${t('connected')}</span>`:`<span class="pill bad">${t('disconnected')}</span>`);p.push(calValid()?`<span class="pill ok">${t('calOk')} · ${S.calMin} min</span>`:`<span class="pill bad">${t('calNo')}</span>`);p.push(`<span class="pill neu">${esc(S.cases[S.cur].id)}</span>`);$('pills').innerHTML=p.join('')}
+function nav(cur){$('nav').innerHTML=views.map(v=>`<a href="#${v}" class="${v===cur?'on':''}">${t(vk[v])}</a>`).join('')}
+function demoPanel(){return `<section class="card demo c12"><h2>${t('demo')}</h2><div class="row">
+ <button class="btn" data-a="tdev">${S.dev?'Disconnect device':'Connect device'}</button>
+ <button class="btn" data-a="age">Advance clock +30 min</button>
+ <label class="small" for="scen">Next measurement:</label>
+ <select id="scen" style="width:auto"><option value="ok">Normal</option><option value="tilt">Probe tilted (light leak)</option><option value="move">Hand moving (unstable)</option><option value="far">Bleached tooth (no match)</option></select></div></section>`}
+function home(){const w=S.wiz;const st=(i,k,txt)=>`<div class="step"><div class="num ${w>i?'done':(w===i?'cur':'')}">${w>i?'✓':i+1}</div><div><b>${t(k)}</b><br><span class="small">${t(txt)}</span></div></div>`;
+ return `<section class="card c5"><h2>${t('devStatus')}</h2>
+ <p class="lbl">Device ID</p><p style="margin:0 0 10px">SB-PROTO-01 · firmware 0.3.1</p>
+ <p class="lbl">LED temperature</p><p class="val" style="margin:0 0 10px">${S.lang==='tr'?'27,4':'27.4'} °C</p>
+ <p class="lbl">Calibration model / library</p><p style="margin:0 0 10px">LINEAR v0.2 · VITA Classical v1.0</p>
+ <p class="lbl">Last calibration</p><p style="margin:0 0 16px">${S.cal?(calValid()?`${S.calMin} min ago (limit ${S.interval} min)`:`Expired · ${S.calMin} min ago`):`Expired · 2 h 14 min ago`}</p>
+ <button class="btn p" data-a="wiz" ${S.dev?'':'disabled'}>${t('start')}</button></section>
+ <section class="card c7"><h2>${t('wizard')}</h2>
+ ${S.wizOpen?`${st(0,'dark','darkT')}${st(1,'white','whiteT')}${st(2,'valid','validT')}
+ <div class="row" style="margin-top:18px"><button class="btn p" data-a="wstep">${S.busy?'<span class="spin"></span>':''}${t('confirm')}</button><button class="btn" data-a="wcancel">${t('cancel')}</button></div>`
+ :`<p class="small">${calValid()?'Calibration is valid. Measurements are allowed.':'Measurements are blocked until a valid calibration exists (FR-14). Press “'+t('start')+'”.'}</p>`}
+ </section>${demoPanel()}`}
+function measure(){const r=S.res;const holder=LIB.map(x=>`<option ${x[0]===S.holder?'selected':''}>${x[0]}</option>`).join('');
+ let out='';
+ if(!S.dev) out=`<div class="alert" style="background:var(--bdb);color:var(--bdt)">Device disconnected. Reconnect the device to measure (FR-21).</div>`;
+ else if(!calValid()) out=`<div class="alert" style="background:var(--bdb);color:var(--bdt)">Calibration missing or expired. No recommendation can be produced. <a href="#home">Calibrate now</a>.</div>`;
+ if(r&&r.invalid) out+=`<div class="alert" style="background:var(--bdb);color:var(--bdt)"><b>${r.invalid}</b> — measure again. No recommendation is shown (FR-15).</div>`;
+ const res=r&&!r.invalid?`${r.best>1.8?`<div class="alert" style="background:var(--ylb);color:var(--ylt)">${t('noMatch')}</div>`:''}
+ <div class="scroll"><table><thead><tr><th>${t('rank')}</th><th>${t('code')}</th><th style="width:30%">${t('sim')}</th><th class="n">%</th><th class="n">ΔE00</th><th>${t('band')}</th></tr></thead><tbody>
+ ${r.top.map((c,i)=>{const [b,k]=bandOf(c.d);return `<tr><td>${i+1}</td><td><b>${c.code}</b></td><td><div class="bar"><i style="width:${simOf(c.d)}%"></i></div></td><td class="n">${simOf(c.d)} %</td><td class="n">${f1(c.d)}</td><td style="white-space:nowrap"><span class="dot ${b}"></span>${t(k)}</td></tr>`}).join('')}
+ </tbody></table></div><p class="small" style="margin:12px 0 16px">${t('simNote')}</p>
+ <div class="row"><a class="btn p" href="#final-report" style="display:inline-flex;align-items:center;text-decoration:none">${t('selectFinal')}</a><button class="btn" data-a="meas">${t('again')}</button></div>`
+ :`<p class="empty">${r&&r.invalid?'':'Place the specimen, choose the region and press '+t('measureBtn')+'.'}</p>`;
+ return `<section class="card c4"><h2>${t('setup')}</h2>
+ <p class="lbl">${t('specimen')}</p><div class="seg" role="group">${[['tab','tab'],['denture','denture']].map(([v,k])=>`<button data-spec="${v}" class="${S.spec===v?'on':''}">${t(k)}</button>`).join('')}</div>
+ <p class="lbl">${t('region')}</p><div class="seg" role="group">${[['cerv','cerv'],['mid','mid'],['inc','inc']].map(([v,k])=>`<button data-reg="${v}" class="${S.region===v?'on':''}">${t(k)}</button>`).join('')}</div>
+ <p class="lbl">${t('guides')}</p><p style="margin:0 0 12px"><label><input type="checkbox" checked disabled> VITA Classical A1–D4</label><br><label class="small"><input type="checkbox" disabled> Second manufacturer (TBD)</label></p>
+ <label class="lbl" for="holder">${t('inHolder')} (demo)</label><select id="holder" style="margin-bottom:14px">${holder}</select>
+ <button class="btn p" data-a="meas" ${S.dev&&calValid()&&!S.busy?'':'disabled'}>${S.busy?'<span class="spin"></span>':''}${t('measureBtn')}</button>
+ ${r&&!r.invalid?`<div style="margin-top:18px"><p class="lbl">${t('measured')}</p><div class="row" style="gap:12px"><div class="swatch" style="background:${labToRgb(...r.lab)}"></div><div style="font-variant-numeric:tabular-nums"><b>L*</b> ${f1(r.lab[0])} &nbsp;<b>a*</b> ${f1(r.lab[1])} &nbsp;<b>b*</b> ${f1(r.lab[2])}</div></div>
+ <p class="small" style="color:var(--okt);margin-top:10px">✓ ${t('quality')}: 5 readings, spread ΔE00 ${f1(r.spread)} · ${r.ms} ms</p></div>`:''}
+ </section><section class="card c8"><h2>${t('top3')} · VITA Classical · ${t(S.region)}</h2>${out}${res}</section>${demoPanel()}`}
+function doMeasure(){if(S.busy)return;S.busy=true;render();const sc=$('scen')?$('scen').value:'ok';setTimeout(()=>{S.busy=false;
+ if(sc==='tilt'){S.res={invalid:'Probe not seated: light leak detected'}}else if(sc==='move'){S.res={invalid:'Unstable measurement: readings spread ΔE00 2,4'}}else{
+ let base=LIB.find(x=>x[0]===S.holder).slice(1);if(sc==='far')base=[82.5,-1.2,6.5];
+ const off=S.spec==='denture'?{cerv:[-2.2,0.6,3.2],mid:[0,0,0],inc:[1.6,-0.4,-4.2]}[S.region]:{cerv:[-1.2,0.3,1.8],mid:[0,0,0],inc:[1.0,-0.2,-2.4]}[S.region];
+ const lab=base.map((v,i)=>v+off[i]+gauss()*0.25);
+ const top=LIB.map(x=>({code:x[0],d:de2000(lab[0],lab[1],lab[2],x[1],x[2],x[3])})).sort((a,b)=>a.d-b.d).slice(0,3);
+ S.res={lab,top,best:top[0].d,spread:0.2+Math.random()*0.2,ms:1100+Math.round(Math.random()*500)};
+ S.cases[S.cur].meas[S.region]={top:top.map(c=>({code:c.code,d:c.d})),lab,spec:S.spec}}
+ render()},1200)}
+function cases(){return `<section class="card c12"><div class="row" style="justify-content:space-between;margin-bottom:10px"><h2 style="margin:0">${t('cases')}</h2><button class="btn p" data-a="newcase">${t('newCase')}</button></div>
+ <div class="scroll"><table><thead><tr><th>Case ID</th><th>Date</th><th>Measured regions</th><th>Final shades</th><th></th></tr></thead><tbody>
+ ${S.cases.map((c,i)=>`<tr><td><b>${esc(c.id)}</b>${i===S.cur?' <span class="pill neu">open</span>':''}</td><td>${c.date}</td><td>${Object.keys(c.meas).map(k=>t(k)).join(', ')||'—'}</td><td>${Object.entries(c.final).map(([k,v])=>t(k)+': '+v).join(', ')||'—'}</td><td><button class="btn" data-open="${i}">${t('open')}</button></td></tr>`).join('')}
+ </tbody></table></div><p class="small" style="margin-top:12px">Cases use anonymous IDs. The system has no fields for patient names or national identifiers (FR-17).</p></section>`}
+function final(){const c=S.cases[S.cur];const regs=['cerv','mid','inc'].filter(k=>c.meas[k]);
+ if(!regs.length)return `<section class="card c12"><p class="empty">${t('noMeas')} <a href="#measure">${t('measure')}</a></p></section>`;
+ const opts=v=>LIB.map(x=>`<option ${x[0]===v?'selected':''}>${x[0]}</option>`).join('');
+ const rows=regs.map(k=>{const m=c.meas[k];const top1=m.top[0].code;const sel=c.final[k]||top1;return `<tr><td>${t(k)}</td><td>${top1} <span class="small">(${simOf(m.top[0].d)} %)</span></td><td><select data-fin="${k}" style="width:auto;min-width:90px">${opts(sel)}</select> ${sel!==top1?`<span class="pill yel">${t('differs')}</span>`:''}</td></tr>`}).join('');
+ const rep=regs.map(k=>{const m=c.meas[k];return `<b>${t(k)}</b> · L* ${f1(m.lab[0])}, a* ${f1(m.lab[1])}, b* ${f1(m.lab[2])} · ${m.top.map(x=>`${x.code} ${simOf(x.d)} % (ΔE00 ${f1(x.d)})`).join(', ')}<br><b>Final shade (dentist):</b> ${c.final[k]||m.top[0].code}`}).join('<br><br>');
+ return `<section class="card c6"><h2>Final shade (dentist decision)</h2><div class="scroll"><table><thead><tr><th>${t('region')}</th><th>Top-1</th><th>${t('sel')}</th></tr></thead><tbody>${rows}</tbody></table></div>
+ <label class="lbl" for="note" style="display:block;margin-top:16px">${t('note')}</label><textarea id="note">${esc(c.note)}</textarea>
+ <div class="row" style="margin-top:16px"><button class="btn p" data-a="pdf">${t('genPdf')}</button><button class="btn" disabled>${t('share')}</button></div></section>
+ <section class="card c6"><h2>${t('preview')}</h2><div class="rep"><b>ShadeBridge measurement report</b><br>Case ${esc(c.id)} · ${c.date} · Device SB-PROTO-01<br>Calibration session CS-0412 · Model LINEAR v0.2 · Library VITA Classical v1.0<br><br>${rep}${c.note?`<br><br><b>Note:</b> ${esc(c.note)}`:''}<br><br><i>System recommendations are decision support. The final shade is selected by the dentist.</i></div></section>`}
+function library(){return `<section class="card c8"><h2>VITA Classical A1–D4 · 16 tabs · library v1.0</h2><div class="scroll"><table><thead><tr><th>Code</th><th></th><th class="n">L*</th><th class="n">a*</th><th class="n">b*</th><th class="n">n</th><th class="n">SD ΔE00</th></tr></thead><tbody>
+ ${LIB.map(x=>`<tr><td><b>${x[0]}</b></td><td><span class="swatch" style="display:inline-block;width:22px;height:22px;vertical-align:middle;background:${labToRgb(x[1],x[2],x[3])}"></span></td><td class="n">${f1(x[1])}</td><td class="n">${f1(x[2])}</td><td class="n">${f1(x[3])}</td><td class="n">30</td><td class="n">${f1(0.3)}</td></tr>`).join('')}
+ </tbody></table></div><p class="small">Library values are illustrative placeholders until the tabs are measured with the prototype.</p></section>
+ <section class="card c4"><h2>Add shade guide</h2><label class="lbl" for="man">Manufacturer</label><input type="text" id="man" placeholder="Second manufacturer (TBD)" style="margin-bottom:10px">
+ <label class="lbl" for="codes">Codes (comma separated)</label><input type="text" id="codes" placeholder="e.g. 110, 120, 130" style="margin-bottom:10px">
+ <p class="small">Plan: ≥ 10 repositioned readings per tab, middle third, over ≥ 2 sessions (FR-18).</p><button class="btn p" data-a="addguide">Start guided measurement</button></section>`}
+function prefs(){return `<section class="card c6"><h2>${t('lang')}</h2><div class="seg"><button data-lang="tr" class="${S.lang==='tr'?'on':''}">Türkçe</button><button data-lang="en" class="${S.lang==='en'?'on':''}">English</button></div></section>
+ <section class="card c6"><h2>${t('interval')}</h2><select id="intv" style="width:auto">${[30,60,120].map(v=>`<option value="${v}" ${S.interval===v?'selected':''}>${v} min</option>`).join('')}</select><p class="small" style="margin-top:10px">Initial value 60 min; final value set from the calibration drift test (NFR-12).</p></section>`}
+function render(){const v=views.includes(location.hash.slice(1))?location.hash.slice(1):'home';document.documentElement.lang=S.lang;nav(v);pills();$('title').textContent=t(vk[v]);
+ $('view').innerHTML={home,cases,measure,'final-report':final,library,prefs}[v]();
+ const sc=$('scen');if(sc)sc.value=S._scen||'ok'}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset.a;
+ if(b.dataset.spec){S.spec=b.dataset.spec;S.res=null;render()}
+ else if(b.dataset.reg){S.region=b.dataset.reg;S.res=null;render()}
+ else if(b.dataset.lang){S.lang=b.dataset.lang;render()}
+ else if(b.dataset.open){S.cur=+b.dataset.open;S.res=null;location.hash='measure'}
+ else if(a==='wiz'){S.wizOpen=true;S.wiz=0;render()}
+ else if(a==='wcancel'){S.wizOpen=false;S.wiz=0;render()}
+ else if(a==='wstep'){if(S.busy)return;S.busy=true;render();setTimeout(()=>{S.busy=false;S.wiz++;if(S.wiz>=3){S.cal=true;S.calMin=0;S.wizOpen=false;S.wiz=0;toast('Calibration valid for '+S.interval+' min')}render()},700)}
+ else if(a==='tdev'){S.dev=!S.dev;S.res=null;render();toast(S.dev?t('connected'):t('disconnected'))}
+ else if(a==='age'){if(S.cal)S.calMin+=30;render();toast('Clock advanced 30 min')}
+ else if(a==='meas'){doMeasure()}
+ else if(a==='newcase'){const n=String(15+S.cases.length-3).padStart(3,'0');S.cases.unshift({id:'C-2026-0'+n,date:'2026-12-16',meas:{},final:{},note:''});S.cur=0;S.res=null;render();toast('New anonymous case created')}
+ else if(a==='pdf'){toast('PDF generated (prototype: no file is created)')}
+ else if(a==='addguide'){toast('Guided measurement would start here (UC-11)')}});
+document.addEventListener('change',e=>{const el=e.target;if(el.id==='holder')S.holder=el.value;else if(el.id==='scen')S._scen=el.value;else if(el.id==='intv'){S.interval=+el.value;render()}else if(el.dataset.fin){S.cases[S.cur].final[el.dataset.fin]=el.value;render()}});
+document.addEventListener('input',e=>{if(e.target.id==='note')S.cases[S.cur].note=e.target.value});
+window.addEventListener('hashchange',render);
+render();
+}
+</script>
+</body>
+</html>
