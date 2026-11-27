@@ -83,7 +83,7 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 <div class="app">
   <aside class="side">
     <div class="logo">ShadeBridge</div>
-    <div class="ver" id="verline">Clickable prototype · CMPE 491</div>
+    <div class="ver" id="verline">Clickable prototype · Stage 1</div>
     <nav class="nav" id="nav"></nav>
     <div class="foot" id="footnote">Values are illustrative. No real device is connected.</div>
   </aside>
@@ -97,30 +97,30 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 {
 const T={
  en:{home:'Device and calibration',cases:'Cases',measure:'Measure',final:'Final shade and report',library:'Shade library',prefs:'Preferences',
-  connected:'Device connected (USB)',disconnected:'Device disconnected',calOk:'Calibration valid',calNo:'Calibration required',
+  connected:'Device connected',disconnected:'Device disconnected',calOk:'Calibration valid',calNo:'Calibration required',
   devStatus:'Device status',wizard:'Calibration wizard',start:'Start calibration',confirm:'Confirm',cancel:'Cancel',
-  dark:'Dark reference',darkT:'Place the probe on the black light trap, then confirm.',white:'White reference',whiteT:'Place the probe on the white reference tile, then confirm.',valid:'Validation',validT:'Checks saturation and signal range, then stores a calibration session.',
-  measureBtn:'Measure',again:'Measure again',selectFinal:'Go to final shade',setup:'Setup',specimen:'Specimen',tab:'Shade tab',denture:'Denture tooth',region:'Region',cerv:'Cervical',mid:'Middle',inc:'Incisal',guides:'Shade guides',inHolder:'Specimen in holder',
+  dark:'Dark reference',darkT:'Place the probe on the dark reference, then confirm.',white:'White reference',whiteT:'Place the probe on the white reference, then confirm.',valid:'Validation',validT:'Checks that the readings are within the expected range, then stores the calibration.',
+  measureBtn:'Measure',again:'Measure again',selectFinal:'Go to final shade',setup:'Setup',specimen:'Object type',tab:'Shade tab',denture:'Denture tooth',region:'Region',cerv:'Cervical',mid:'Middle',inc:'Incisal',guides:'Shade guides',inHolder:'Object in holder',
   top3:'Top-3 recommendations',rank:'Rank',code:'Code',sim:'Similarity',band:'Band',acc:'Acceptable',per:'Imperceptible',nacc:'Not acceptable',
   simNote:'Similarity is a scaled view of the CIEDE2000 difference (ΔE00 = 1.8 → 50%). It is not the probability that a shade is correct.',
   noMatch:'No acceptable match in the library. The best candidate exceeds ΔE00 1.8.',measured:'Measured colour (CIELAB)',
   quality:'Quality',demo:'Demo controls (prototype only)',lang:'Language',interval:'Calibration validity interval',newCase:'New case',open:'Open',
-  genPdf:'Generate PDF',share:'Share with lab (CMPE 492)',note:'Note for laboratory',sel:'Selected',differs:'differs from Top-1',preview:'Report preview',
+  genPdf:'Generate PDF',share:'Share with laboratory',note:'Note for laboratory',sel:'Selected',differs:'differs from Top-1',finTooth:'Final shade of the tooth',finRegion:'Shade per region (optional)',finTitle:'Final shade (dentist decision)',none:'not recorded',reliable:'measurement reliable',unrel:'Measurement unreliable',leak:'ambient light entering the probe',unstable:'readings are unstable',measureAgain:'please measure again. No recommendation is shown (FR-15).',otherGuides:'Other guides (added when available)',login:'Sign in',lab:'Shared cases',user:'Username',pass:'Password',role:'Role',rDentist:'Dentist',rTech:'Technician',rAdmin:'Administrator',logout:'Sign out',signIn:'Sign in',shared:'Shared with laboratory',sharedOk:'Case shared with the laboratory',noShared:'No cases have been shared with the laboratory yet.',view:'View',demoAcc:'Demo accounts: dentist / technician / admin, password demo. Each role sees only its own functions (FR-25).',badLogin:'Enter the username and password of a demo account.',readOnly:'Read-only view for the laboratory.',preview:'Report preview',
   noMeas:'No measurements yet in this case. Measure at least one region first.'},
  tr:{home:'Cihaz ve kalibrasyon',cases:'Vakalar',measure:'Ölçüm',final:'Nihai renk ve rapor',library:'Renk kütüphanesi',prefs:'Ayarlar',
-  connected:'Cihaz bağlı (USB)',disconnected:'Cihaz bağlı değil',calOk:'Kalibrasyon geçerli',calNo:'Kalibrasyon gerekli',
+  connected:'Cihaz bağlı',disconnected:'Cihaz bağlı değil',calOk:'Kalibrasyon geçerli',calNo:'Kalibrasyon gerekli',
   devStatus:'Cihaz durumu',wizard:'Kalibrasyon sihirbazı',start:'Kalibrasyonu başlat',confirm:'Onayla',cancel:'İptal',
-  dark:'Siyah referans',darkT:'Probu siyah ışık tuzağına yerleştirip onaylayın.',white:'Beyaz referans',whiteT:'Probu beyaz referans karoya yerleştirip onaylayın.',valid:'Doğrulama',validT:'Doyma ve sinyal aralığı kontrol edilir, kalibrasyon oturumu kaydedilir.',
-  measureBtn:'Ölç',again:'Tekrar ölç',selectFinal:'Nihai renge geç',setup:'Ayarlar',specimen:'Örnek',tab:'Renk tablası',denture:'Protez diş',region:'Bölge',cerv:'Boyun',mid:'Orta',inc:'Kesici uç',guides:'Renk skalaları',inHolder:'Tutucudaki örnek',
+  dark:'Siyah referans',darkT:'Probu siyah referansa yerleştirip onaylayın.',white:'Beyaz referans',whiteT:'Probu beyaz referansa yerleştirip onaylayın.',valid:'Doğrulama',validT:'Okumaların beklenen aralıkta olduğu kontrol edilir, kalibrasyon kaydedilir.',
+  measureBtn:'Ölç',again:'Tekrar ölç',selectFinal:'Nihai renge geç',setup:'Ayarlar',specimen:'Nesne türü',tab:'Renk tablası',denture:'Protez diş',region:'Bölge',cerv:'Boyun',mid:'Orta',inc:'Kesici uç',guides:'Renk skalaları',inHolder:'Tutucudaki nesne',
   top3:'En yakın 3 renk',rank:'Sıra',code:'Kod',sim:'Benzerlik',band:'Bant',acc:'Kabul edilebilir',per:'Fark edilmez',nacc:'Kabul edilemez',
   simNote:'Benzerlik, CIEDE2000 farkının ölçeklenmiş gösterimidir (ΔE00 = 1,8 → %50). Rengin doğru olma olasılığı değildir.',
   noMatch:'Kütüphanede kabul edilebilir eşleşme yok. En iyi aday ΔE00 1,8 değerini aşıyor.',measured:'Ölçülen renk (CIELAB)',
   quality:'Kalite',demo:'Demo kontrolleri (yalnızca prototip)',lang:'Dil',interval:'Kalibrasyon geçerlilik süresi',newCase:'Yeni vaka',open:'Aç',
-  genPdf:'PDF oluştur',share:'Laboratuvarla paylaş (CMPE 492)',note:'Laboratuvar notu',sel:'Seçilen',differs:'Top-1’den farklı',preview:'Rapor önizleme',
+  genPdf:'PDF oluştur',share:'Laboratuvarla paylaş',note:'Laboratuvar notu',sel:'Seçilen',differs:'Top-1’den farklı',finTooth:'Dişin nihai rengi',finRegion:'Bölgelere göre renk (isteğe bağlı)',finTitle:'Nihai renk (hekim kararı)',none:'girilmedi',reliable:'ölçüm güvenilir',unrel:'Ölçüm güvenilir değil',leak:'proba ortam ışığı giriyor',unstable:'okumalar kararsız',measureAgain:'lütfen tekrar ölçün. Öneri gösterilmez (FR-15).',otherGuides:'Diğer skalalar (erişildikçe eklenir)',login:'Giriş',lab:'Paylaşılan vakalar',user:'Kullanıcı adı',pass:'Şifre',role:'Rol',rDentist:'Diş hekimi',rTech:'Teknisyen',rAdmin:'Yönetici',logout:'Çıkış',signIn:'Giriş yap',shared:'Laboratuvarla paylaşıldı',sharedOk:'Vaka laboratuvarla paylaşıldı',noShared:'Henüz laboratuvarla paylaşılmış vaka yok.',view:'Görüntüle',demoAcc:'Demo hesaplar: dentist / technician / admin, şifre demo. Her rol yalnızca kendi işlevlerini görür (FR-25).',badLogin:'Bir demo hesabın kullanıcı adı ve şifresini girin.',readOnly:'Laboratuvar için salt okunur görünüm.',preview:'Rapor önizleme',
   noMeas:'Bu vakada henüz ölçüm yok. Önce en az bir bölgeyi ölçün.'}};
 // Illustrative library (not measured values)
 const LIB=[['B1',76.5,-0.6,12.0],['A1',75.2,0.2,14.5],['B2',74.3,-0.1,17.6],['D2',72.8,0.6,14.0],['A2',73.4,1.2,17.8],['C1',71.6,0.0,13.8],['C2',69.9,0.4,16.4],['D4',68.3,1.9,19.2],['A3',71.2,2.0,20.6],['D3',69.6,1.4,16.3],['B3',71.0,0.9,22.5],['A3.5',69.2,2.8,23.4],['B4',70.1,1.3,24.4],['C3',67.6,1.0,18.2],['A4',65.8,3.3,22.7],['C4',63.2,2.2,20.3]];
-const S={lang:'en',dev:true,cal:false,calAge:134,calMin:0,interval:60,wiz:0,spec:'tab',region:'mid',holder:'A2',scen:'ok',busy:false,res:null,
+const S={role:null,labCase:null,lang:'en',dev:true,cal:false,calAge:134,calMin:0,interval:60,wiz:0,spec:'tab',region:'mid',holder:'A2',scen:'ok',busy:false,res:null,
   cases:[{id:'C-2026-014',date:'2026-12-15',meas:{},final:{},note:''},{id:'C-2026-013',date:'2026-12-14',meas:{},final:{},note:''},{id:'C-2026-011',date:'2026-12-11',meas:{},final:{},note:''}],cur:0};
 const t=k=>T[S.lang][k]||k;
 const $=id=>document.getElementById(id);
@@ -133,21 +133,23 @@ const bandOf=d=>d<0.8?['g','per']:d<=1.8?['y','acc']:['r','nacc'];
 const gauss=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
 function labToRgb(L,a,b){let y=(L+16)/116,x=a/500+y,z=y-b/200;const f=v=>v**3>0.008856?v**3:(v-16/116)/7.787;x=0.95047*f(x);y=f(y);z=1.08883*f(z);let R=x*3.2406+y*-1.5372+z*-0.4986,Gg=x*-0.9689+y*1.8758+z*0.0415,B=x*0.0557+y*-0.204+z*1.057;const g=v=>Math.max(0,Math.min(255,Math.round(255*(v>0.0031308?1.055*v**(1/2.4)-0.055:12.92*v))));return `rgb(${g(R)},${g(Gg)},${g(B)})`}
 function toast(m){const e=$('toast');e.textContent=m;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2600)}
-const views=['home','cases','measure','final-report','library','prefs'];
-const vk={'home':'home','cases':'cases','measure':'measure','final-report':'final','library':'library','prefs':'prefs'};
+const views=['home','cases','measure','final-report','library','lab','prefs'];
+const ROLE={dentist:['home','cases','measure','final-report','prefs'],technician:['lab','prefs'],admin:['home','library','prefs']};
+const ACC={dentist:'dentist',technician:'technician',admin:'admin'};
+const vk={'home':'home','cases':'cases','measure':'measure','final-report':'final','library':'library','lab':'lab','prefs':'prefs','login':'login'};
 const calValid=()=>S.cal&&S.calMin<S.interval;
-function pills(){const p=[];p.push(S.dev?`<span class="pill ok">${t('connected')}</span>`:`<span class="pill bad">${t('disconnected')}</span>`);p.push(calValid()?`<span class="pill ok">${t('calOk')} · ${S.calMin} min</span>`:`<span class="pill bad">${t('calNo')}</span>`);p.push(`<span class="pill neu">${esc(S.cases[S.cur].id)}</span>`);$('pills').innerHTML=p.join('')}
-function nav(cur){$('nav').innerHTML=views.map(v=>`<a href="#${v}" class="${v===cur?'on':''}">${t(vk[v])}</a>`).join('')}
+function pills(){const p=[];if(!S.role){$('pills').innerHTML='';return}if(S.role==='technician'){$('pills').innerHTML=`<span class="pill neu">${t('rTech')}</span>`;return}p.push(S.dev?`<span class="pill ok">${t('connected')}</span>`:`<span class="pill bad">${t('disconnected')}</span>`);p.push(calValid()?`<span class="pill ok">${t('calOk')} · ${S.calMin} min</span>`:`<span class="pill bad">${t('calNo')}</span>`);if(S.role==='dentist')p.push(`<span class="pill neu">${esc(S.cases[S.cur].id)}</span>`);p.push(`<span class="pill neu">${t(S.role==='admin'?'rAdmin':'rDentist')}</span>`);$('pills').innerHTML=p.join('')}
+function nav(cur){if(!S.role){$('nav').innerHTML='';$('footnote').innerHTML='Values are illustrative. No real device is connected.';return}$('nav').innerHTML=ROLE[S.role].map(v=>`<a href="#${v}" class="${v===cur?'on':''}">${t(vk[v])}</a>`).join('');$('footnote').innerHTML=`<button class="btn" data-a="logout" style="min-height:36px;background:transparent;color:#e8edf5;border-color:#7f9cc9;margin-bottom:10px">${t('logout')}</button><br>Values are illustrative. No real device is connected.`}
 function demoPanel(){return `<section class="card demo c12"><h2>${t('demo')}</h2><div class="row">
  <button class="btn" data-a="tdev">${S.dev?'Disconnect device':'Connect device'}</button>
  <button class="btn" data-a="age">Advance clock +30 min</button>
  <label class="small" for="scen">Next measurement:</label>
- <select id="scen" style="width:auto"><option value="ok">Normal</option><option value="tilt">Probe tilted (light leak)</option><option value="move">Hand moving (unstable)</option><option value="far">Bleached tooth (no match)</option></select></div></section>`}
+ <select id="scen" style="width:auto"><option value="ok">Normal</option><option value="tilt">Probe tilted (light leak)</option><option value="move">Hand moving (unstable)</option><option value="far">Far from all tabs (no match)</option></select></div></section>`}
 function home(){const w=S.wiz;const st=(i,k,txt)=>`<div class="step"><div class="num ${w>i?'done':(w===i?'cur':'')}">${w>i?'✓':i+1}</div><div><b>${t(k)}</b><br><span class="small">${t(txt)}</span></div></div>`;
  return `<section class="card c5"><h2>${t('devStatus')}</h2>
  <p class="lbl">Device ID</p><p style="margin:0 0 10px">SB-PROTO-01 · firmware 0.3.1</p>
  <p class="lbl">LED temperature</p><p class="val" style="margin:0 0 10px">${S.lang==='tr'?'27,4':'27.4'} °C</p>
- <p class="lbl">Calibration model / library</p><p style="margin:0 0 10px">LINEAR v0.2 · VITA Classical v1.0</p>
+ <p class="lbl">Calibration model / library</p><p style="margin:0 0 10px">Model v0.2 · VITA Classical v1.0</p>
  <p class="lbl">Last calibration</p><p style="margin:0 0 16px">${S.cal?(calValid()?`${S.calMin} min ago (limit ${S.interval} min)`:`Expired · ${S.calMin} min ago`):`Expired · 2 h 14 min ago`}</p>
  <button class="btn p" data-a="wiz" ${S.dev?'':'disabled'}>${t('start')}</button></section>
  <section class="card c7"><h2>${t('wizard')}</h2>
@@ -159,7 +161,7 @@ function measure(){const r=S.res;const holder=LIB.map(x=>`<option ${x[0]===S.hol
  let out='';
  if(!S.dev) out=`<div class="alert" style="background:var(--bdb);color:var(--bdt)">Device disconnected. Reconnect the device to measure (FR-21).</div>`;
  else if(!calValid()) out=`<div class="alert" style="background:var(--bdb);color:var(--bdt)">Calibration missing or expired. No recommendation can be produced. <a href="#home">Calibrate now</a>.</div>`;
- if(r&&r.invalid) out+=`<div class="alert" style="background:var(--bdb);color:var(--bdt)"><b>${r.invalid}</b> — measure again. No recommendation is shown (FR-15).</div>`;
+ if(r&&r.invalid) out+=`<div class="alert" style="background:var(--bdb);color:var(--bdt)"><b>${t('unrel')}</b> (${t(r.invalid)}) — ${t('measureAgain')}</div>`;
  const res=r&&!r.invalid?`${r.best>1.8?`<div class="alert" style="background:var(--ylb);color:var(--ylt)">${t('noMatch')}</div>`:''}
  <div class="scroll"><table><thead><tr><th>${t('rank')}</th><th>${t('code')}</th><th style="width:30%">${t('sim')}</th><th class="n">%</th><th class="n">ΔE00</th><th>${t('band')}</th></tr></thead><tbody>
  ${r.top.map((c,i)=>{const [b,k]=bandOf(c.d);return `<tr><td>${i+1}</td><td><b>${c.code}</b></td><td><div class="bar"><i style="width:${simOf(c.d)}%"></i></div></td><td class="n">${simOf(c.d)} %</td><td class="n">${f1(c.d)}</td><td style="white-space:nowrap"><span class="dot ${b}"></span>${t(k)}</td></tr>`}).join('')}
@@ -169,14 +171,14 @@ function measure(){const r=S.res;const holder=LIB.map(x=>`<option ${x[0]===S.hol
  return `<section class="card c4"><h2>${t('setup')}</h2>
  <p class="lbl">${t('specimen')}</p><div class="seg" role="group">${[['tab','tab'],['denture','denture']].map(([v,k])=>`<button data-spec="${v}" class="${S.spec===v?'on':''}">${t(k)}</button>`).join('')}</div>
  <p class="lbl">${t('region')}</p><div class="seg" role="group">${[['cerv','cerv'],['mid','mid'],['inc','inc']].map(([v,k])=>`<button data-reg="${v}" class="${S.region===v?'on':''}">${t(k)}</button>`).join('')}</div>
- <p class="lbl">${t('guides')}</p><p style="margin:0 0 12px"><label><input type="checkbox" checked disabled> VITA Classical A1–D4</label><br><label class="small"><input type="checkbox" disabled> Second manufacturer (TBD)</label></p>
+ <p class="lbl">${t('guides')}</p><p style="margin:0 0 12px"><label><input type="checkbox" checked disabled> VITA Classical A1–D4</label><br><label class="small"><input type="checkbox" disabled> ${t('otherGuides')}</label></p>
  <label class="lbl" for="holder">${t('inHolder')} (demo)</label><select id="holder" style="margin-bottom:14px">${holder}</select>
  <button class="btn p" data-a="meas" ${S.dev&&calValid()&&!S.busy?'':'disabled'}>${S.busy?'<span class="spin"></span>':''}${t('measureBtn')}</button>
  ${r&&!r.invalid?`<div style="margin-top:18px"><p class="lbl">${t('measured')}</p><div class="row" style="gap:12px"><div class="swatch" style="background:${labToRgb(...r.lab)}"></div><div style="font-variant-numeric:tabular-nums"><b>L*</b> ${f1(r.lab[0])} &nbsp;<b>a*</b> ${f1(r.lab[1])} &nbsp;<b>b*</b> ${f1(r.lab[2])}</div></div>
- <p class="small" style="color:var(--okt);margin-top:10px">✓ ${t('quality')}: 5 readings, spread ΔE00 ${f1(r.spread)} · ${r.ms} ms</p></div>`:''}
+ <p class="small" style="color:var(--okt);margin-top:10px">✓ ${t('quality')}: ${t('reliable')} · ${f1(r.ms/1000)} s</p></div>`:''}
  </section><section class="card c8"><h2>${t('top3')} · VITA Classical · ${t(S.region)}</h2>${out}${res}</section>${demoPanel()}`}
 function doMeasure(){if(S.busy)return;S.busy=true;render();const sc=$('scen')?$('scen').value:'ok';setTimeout(()=>{S.busy=false;
- if(sc==='tilt'){S.res={invalid:'Probe not seated: light leak detected'}}else if(sc==='move'){S.res={invalid:'Unstable measurement: readings spread ΔE00 2,4'}}else{
+ if(sc==='tilt'){S.res={invalid:'leak'}}else if(sc==='move'){S.res={invalid:'unstable'}}else{
  let base=LIB.find(x=>x[0]===S.holder).slice(1);if(sc==='far')base=[82.5,-1.2,6.5];
  const off=S.spec==='denture'?{cerv:[-2.2,0.6,3.2],mid:[0,0,0],inc:[1.6,-0.4,-4.2]}[S.region]:{cerv:[-1.2,0.3,1.8],mid:[0,0,0],inc:[1.0,-0.2,-2.4]}[S.region];
  const lab=base.map((v,i)=>v+off[i]+gauss()*0.25);
@@ -185,28 +187,45 @@ function doMeasure(){if(S.busy)return;S.busy=true;render();const sc=$('scen')?$(
  S.cases[S.cur].meas[S.region]={top:top.map(c=>({code:c.code,d:c.d})),lab,spec:S.spec}}
  render()},1200)}
 function cases(){return `<section class="card c12"><div class="row" style="justify-content:space-between;margin-bottom:10px"><h2 style="margin:0">${t('cases')}</h2><button class="btn p" data-a="newcase">${t('newCase')}</button></div>
- <div class="scroll"><table><thead><tr><th>Case ID</th><th>Date</th><th>Measured regions</th><th>Final shades</th><th></th></tr></thead><tbody>
- ${S.cases.map((c,i)=>`<tr><td><b>${esc(c.id)}</b>${i===S.cur?' <span class="pill neu">open</span>':''}</td><td>${c.date}</td><td>${Object.keys(c.meas).map(k=>t(k)).join(', ')||'—'}</td><td>${Object.entries(c.final).map(([k,v])=>t(k)+': '+v).join(', ')||'—'}</td><td><button class="btn" data-open="${i}">${t('open')}</button></td></tr>`).join('')}
+ <div class="scroll"><table><thead><tr><th>Case ID</th><th>Date</th><th>Measured regions</th><th>Final shade</th><th></th></tr></thead><tbody>
+ ${S.cases.map((c,i)=>`<tr><td><b>${esc(c.id)}</b>${i===S.cur?' <span class="pill neu">open</span>':''}</td><td>${c.date}</td><td>${Object.keys(c.meas).map(k=>t(k)).join(', ')||'—'}</td><td>${c.tooth||'—'}${Object.keys(c.final).length?' <span class="small">('+Object.entries(c.final).map(([k,v])=>t(k)+': '+v).join(', ')+')</span>':''}</td><td><button class="btn" data-open="${i}">${t('open')}</button></td></tr>`).join('')}
  </tbody></table></div><p class="small" style="margin-top:12px">Cases use anonymous IDs. The system has no fields for patient names or national identifiers (FR-17).</p></section>`}
 function final(){const c=S.cases[S.cur];const regs=['cerv','mid','inc'].filter(k=>c.meas[k]);
  if(!regs.length)return `<section class="card c12"><p class="empty">${t('noMeas')} <a href="#measure">${t('measure')}</a></p></section>`;
- const opts=v=>LIB.map(x=>`<option ${x[0]===v?'selected':''}>${x[0]}</option>`).join('');
- const rows=regs.map(k=>{const m=c.meas[k];const top1=m.top[0].code;const sel=c.final[k]||top1;return `<tr><td>${t(k)}</td><td>${top1} <span class="small">(${simOf(m.top[0].d)} %)</span></td><td><select data-fin="${k}" style="width:auto;min-width:90px">${opts(sel)}</select> ${sel!==top1?`<span class="pill yel">${t('differs')}</span>`:''}</td></tr>`}).join('');
- const rep=regs.map(k=>{const m=c.meas[k];return `<b>${t(k)}</b> · L* ${f1(m.lab[0])}, a* ${f1(m.lab[1])}, b* ${f1(m.lab[2])} · ${m.top.map(x=>`${x.code} ${simOf(x.d)} % (ΔE00 ${f1(x.d)})`).join(', ')}<br><b>Final shade (dentist):</b> ${c.final[k]||m.top[0].code}`}).join('<br><br>');
- return `<section class="card c6"><h2>Final shade (dentist decision)</h2><div class="scroll"><table><thead><tr><th>${t('region')}</th><th>Top-1</th><th>${t('sel')}</th></tr></thead><tbody>${rows}</tbody></table></div>
+ const ref=c.meas.mid?'mid':regs[0];const top1=c.meas[ref].top[0].code;const tooth=c.tooth||top1;
+ const opts=(v,blank)=>(blank?`<option value="" ${v?'':'selected'}>—</option>`:'')+LIB.map(x=>`<option ${x[0]===v?'selected':''}>${x[0]}</option>`).join('');
+ const rows=regs.map(k=>{const m=c.meas[k];const r1=m.top[0].code;const sel=c.final[k]||'';return `<tr><td>${t(k)}</td><td>${r1} <span class="small">(${simOf(m.top[0].d)} %)</span></td><td><select data-fin="${k}" style="width:auto;min-width:90px">${opts(sel,true)}</select></td></tr>`}).join('');
+ const rep=regs.map(k=>{const m=c.meas[k];return `<b>${t(k)}</b> · L* ${f1(m.lab[0])}, a* ${f1(m.lab[1])}, b* ${f1(m.lab[2])} · ${m.top.map(x=>`${x.code} ${simOf(x.d)} % (ΔE00 ${f1(x.d)})`).join(', ')}${c.final[k]?`<br>Shade recorded for this region: ${c.final[k]}`:''}`}).join('<br><br>');
+ return `<section class="card c6"><h2>${t('finTitle')}</h2>
+ <label class="lbl" for="tooth">${t('finTooth')}</label><div class="row" style="margin-bottom:6px"><select id="tooth" style="width:auto;min-width:110px">${opts(tooth)}</select>${tooth!==top1?`<span class="pill yel">${t('differs')}</span>`:''}</div>
+ <p class="small" style="margin:0 0 16px">Top-1 (${t(ref)}): ${top1} · ${simOf(c.meas[ref].top[0].d)} %</p>
+ <p class="lbl">${t('finRegion')}</p><div class="scroll"><table><thead><tr><th>${t('region')}</th><th>Top-1</th><th>${t('sel')}</th></tr></thead><tbody>${rows}</tbody></table></div>
  <label class="lbl" for="note" style="display:block;margin-top:16px">${t('note')}</label><textarea id="note">${esc(c.note)}</textarea>
- <div class="row" style="margin-top:16px"><button class="btn p" data-a="pdf">${t('genPdf')}</button><button class="btn" disabled>${t('share')}</button></div></section>
- <section class="card c6"><h2>${t('preview')}</h2><div class="rep"><b>ShadeBridge measurement report</b><br>Case ${esc(c.id)} · ${c.date} · Device SB-PROTO-01<br>Calibration session CS-0412 · Model LINEAR v0.2 · Library VITA Classical v1.0<br><br>${rep}${c.note?`<br><br><b>Note:</b> ${esc(c.note)}`:''}<br><br><i>System recommendations are decision support. The final shade is selected by the dentist.</i></div></section>`}
+ <div class="row" style="margin-top:16px"><button class="btn p" data-a="pdf">${t('genPdf')}</button><button class="btn" data-a="share">${t('share')}</button>${c.shared?`<span class="pill ok">${t('shared')}</span>`:''}</div></section>
+ <section class="card c6"><h2>${t('preview')}</h2><div class="rep"><b>ShadeBridge measurement report</b><br>Case ${esc(c.id)} · ${c.date} · Device SB-PROTO-01<br>Calibration CS-0412 · Model v0.2 · Library VITA Classical v1.0<br><br>${rep}<br><br><b>Final shade (dentist):</b> ${tooth}${tooth!==top1?' ('+t('differs')+')':''}${c.note?`<br><b>Note:</b> ${esc(c.note)}`:''}<br><br><i>System recommendations are decision support. The final shade is selected by the dentist.</i></div></section>`}
 function library(){return `<section class="card c8"><h2>VITA Classical A1–D4 · 16 tabs · library v1.0</h2><div class="scroll"><table><thead><tr><th>Code</th><th></th><th class="n">L*</th><th class="n">a*</th><th class="n">b*</th><th class="n">n</th><th class="n">SD ΔE00</th></tr></thead><tbody>
  ${LIB.map(x=>`<tr><td><b>${x[0]}</b></td><td><span class="swatch" style="display:inline-block;width:22px;height:22px;vertical-align:middle;background:${labToRgb(x[1],x[2],x[3])}"></span></td><td class="n">${f1(x[1])}</td><td class="n">${f1(x[2])}</td><td class="n">${f1(x[3])}</td><td class="n">30</td><td class="n">${f1(0.3)}</td></tr>`).join('')}
  </tbody></table></div><p class="small">Library values are illustrative placeholders until the tabs are measured with the prototype.</p></section>
- <section class="card c4"><h2>Add shade guide</h2><label class="lbl" for="man">Manufacturer</label><input type="text" id="man" placeholder="Second manufacturer (TBD)" style="margin-bottom:10px">
+ <section class="card c4"><h2>Add shade guide</h2><label class="lbl" for="man">Manufacturer</label><input type="text" id="man" placeholder="Manufacturer name" style="margin-bottom:10px">
  <label class="lbl" for="codes">Codes (comma separated)</label><input type="text" id="codes" placeholder="e.g. 110, 120, 130" style="margin-bottom:10px">
- <p class="small">Plan: ≥ 10 repositioned readings per tab, middle third, over ≥ 2 sessions (FR-18).</p><button class="btn p" data-a="addguide">Start guided measurement</button></section>`}
+ <p class="small">Each tab is measured repeatedly, repositioned each time, over several sessions (FR-18).</p><button class="btn p" data-a="addguide">Start guided measurement</button></section>`}
 function prefs(){return `<section class="card c6"><h2>${t('lang')}</h2><div class="seg"><button data-lang="tr" class="${S.lang==='tr'?'on':''}">Türkçe</button><button data-lang="en" class="${S.lang==='en'?'on':''}">English</button></div></section>
- <section class="card c6"><h2>${t('interval')}</h2><select id="intv" style="width:auto">${[30,60,120].map(v=>`<option value="${v}" ${S.interval===v?'selected':''}>${v} min</option>`).join('')}</select><p class="small" style="margin-top:10px">Initial value 60 min; final value set from the calibration drift test (NFR-12).</p></section>`}
-function render(){const v=views.includes(location.hash.slice(1))?location.hash.slice(1):'home';document.documentElement.lang=S.lang;nav(v);pills();$('title').textContent=t(vk[v]);
- $('view').innerHTML={home,cases,measure,'final-report':final,library,prefs}[v]();
+ <section class="card c6"><h2>${t('interval')}</h2><select id="intv" style="width:auto">${[30,60,120].map(v=>`<option value="${v}" ${S.interval===v?'selected':''}>${v} min</option>`).join('')}</select><p class="small" style="margin-top:10px">The interval will be set from the calibration stability test (NFR-12); the values here are for demonstration.</p></section>`}
+function login(){return `<section class="card c6" style="grid-column:4/span 6"><h2>${t('signIn')}</h2>
+ <p class="lbl">${t('role')}</p><div class="seg" role="group">${[['dentist','rDentist'],['technician','rTech'],['admin','rAdmin']].map(([v,k])=>`<button data-acc="${v}">${t(k)}</button>`).join('')}</div>
+ <label class="lbl" for="lu" style="display:block">${t('user')}</label><input type="text" id="lu" autocomplete="username" style="margin-bottom:10px">
+ <label class="lbl" for="lp" style="display:block">${t('pass')}</label><input type="password" id="lp" autocomplete="current-password" style="min-height:42px;border:1px solid var(--line);border-radius:8px;background:var(--surf);padding:8px 10px;font-size:16px;width:100%;margin-bottom:6px">
+ <p class="small" id="lerr" style="color:var(--bdt);min-height:20px;margin:0 0 8px"></p>
+ <button class="btn p" data-a="signin">${t('signIn')}</button>
+ <p class="small" style="margin-top:14px">${t('demoAcc')}</p></section>`}
+function lab(){const sh=S.cases.map((c,i)=>[c,i]).filter(([c])=>c.shared);
+ const list=sh.length?`<div class="scroll"><table><thead><tr><th>Case ID</th><th>Date</th><th>${t('finTitle')}</th><th></th></tr></thead><tbody>${sh.map(([c,i])=>{const ref=c.meas.mid?'mid':Object.keys(c.meas)[0];const tooth=c.tooth||(ref?c.meas[ref].top[0].code:'—');return `<tr><td style="white-space:nowrap"><b>${esc(c.id)}</b></td><td style="white-space:nowrap">${c.date}</td><td>${tooth}</td><td><button class="btn" data-lab="${i}">${t('view')}</button></td></tr>`}).join('')}</tbody></table></div>`:`<p class="empty">${t('noShared')}</p>`;
+ let det='';if(S.labCase!=null){const c=S.cases[S.labCase];const regs=['cerv','mid','inc'].filter(k=>c.meas[k]);const ref=c.meas.mid?'mid':regs[0];const tooth=c.tooth||(ref?c.meas[ref].top[0].code:'—');
+  det=`<section class="card c7"><h2>${esc(c.id)}</h2><div class="rep">${regs.map(k=>{const m=c.meas[k];return `<b>${t(k)}</b> · L* ${f1(m.lab[0])}, a* ${f1(m.lab[1])}, b* ${f1(m.lab[2])} · ${m.top.map(x=>`${x.code} ${simOf(x.d)} % (ΔE00 ${f1(x.d)})`).join(', ')}${c.final[k]?`<br>Shade recorded for this region: ${c.final[k]}`:''}`}).join('<br><br>')}<br><br><b>Final shade (dentist):</b> ${tooth}${c.note?`<br><b>Note:</b> ${esc(c.note)}`:''}</div>
+  <div class="row" style="margin-top:14px"><button class="btn p" data-a="pdf">Download PDF</button><span class="small">${t('readOnly')}</span></div></section>`}
+ return `<section class="card ${det?'c5':'c12'}"><h2>${t('lab')}</h2>${list}</section>${det}`}
+function render(){let v=views.includes(location.hash.slice(1))?location.hash.slice(1):'';if(!S.role)v='login';else if(!ROLE[S.role].includes(v))v=ROLE[S.role][0];document.documentElement.lang=S.lang;nav(v);pills();$('title').textContent=t(vk[v]);
+ $('view').innerHTML={home,cases,measure,'final-report':final,library,lab,prefs,login}[v]();
  const sc=$('scen');if(sc)sc.value=S._scen||'ok'}
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset.a;
  if(b.dataset.spec){S.spec=b.dataset.spec;S.res=null;render()}
@@ -220,11 +239,17 @@ document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)r
  else if(a==='age'){if(S.cal)S.calMin+=30;render();toast('Clock advanced 30 min')}
  else if(a==='meas'){doMeasure()}
  else if(a==='newcase'){const n=String(15+S.cases.length-3).padStart(3,'0');S.cases.unshift({id:'C-2026-0'+n,date:'2026-12-16',meas:{},final:{},note:''});S.cur=0;S.res=null;render();toast('New anonymous case created')}
+ else if(a==='signin'){const u=$('lu').value.trim(),pw=$('lp').value;const r=Object.keys(ACC).find(k=>ACC[k]===u);if(r&&pw==='demo'){S.role=r;location.hash=ROLE[r][0];render()}else{$('lerr').textContent=t('badLogin')}}
+ else if(b.dataset.acc){$('lu').value=b.dataset.acc;$('lp').value='demo';$('lerr').textContent=''}
+ else if(a==='logout'){$('toast').classList.remove('show');S.role=null;S.labCase=null;location.hash='login';render()}
+ else if(a==='share'){S.cases[S.cur].shared=true;render();toast(t('sharedOk'))}
+ else if(b.dataset.lab){S.labCase=+b.dataset.lab;render()}
  else if(a==='pdf'){toast('PDF generated (prototype: no file is created)')}
  else if(a==='addguide'){toast('Guided measurement would start here (UC-11)')}});
-document.addEventListener('change',e=>{const el=e.target;if(el.id==='holder')S.holder=el.value;else if(el.id==='scen')S._scen=el.value;else if(el.id==='intv'){S.interval=+el.value;render()}else if(el.dataset.fin){S.cases[S.cur].final[el.dataset.fin]=el.value;render()}});
+document.addEventListener('change',e=>{const el=e.target;if(el.id==='holder')S.holder=el.value;else if(el.id==='scen')S._scen=el.value;else if(el.id==='intv'){S.interval=+el.value;render()}else if(el.id==='tooth'){S.cases[S.cur].tooth=el.value;render()}else if(el.dataset.fin){const c=S.cases[S.cur];if(el.value)c.final[el.dataset.fin]=el.value;else delete c.final[el.dataset.fin];render()}});
 document.addEventListener('input',e=>{if(e.target.id==='note')S.cases[S.cur].note=e.target.value});
 window.addEventListener('hashchange',render);
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.target.id==='lu'||e.target.id==='lp')){const b=document.querySelector('[data-a=signin]');if(b)b.click()}});
 render();
 }
 </script>
